@@ -1,5 +1,9 @@
 package de.c4vxl.bedwars
 
+import de.c4vxl.bedwars.handlers.BlockHandler
+import de.c4vxl.bedwars.handlers.GameStartHandler
+import de.c4vxl.bedwars.handlers.RespawnHandler
+import de.c4vxl.bedwars.handlers.ShopHandler
 import de.c4vxl.gamelobby.utils.ItemBuilder
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
@@ -31,7 +35,10 @@ class BedWars : JavaPlugin() {
 
 
         // register listeners
-
+        RespawnHandler(this)
+        ShopHandler(this)
+        GameStartHandler(this)
+        BlockHandler(this)
 
         logger.info("[+] $name has been enabled! \n  -> using version ${pluginMeta.version}")
     }
