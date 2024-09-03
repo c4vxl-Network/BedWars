@@ -191,6 +191,8 @@ class Items(private val team: Team) {
             locations.forEach { l -> l.block.type = block }
 
             item.amount -= 1
+
+            it.isCancelled = true
         }
     ).build()
     val SPECIAL_BOOSTER = ItemBuilder(
@@ -211,6 +213,8 @@ class Items(private val team: Team) {
 
             // boost
             it.player.velocity = it.player.eyeLocation.direction.add(Vector(0.0, 0.3, 0.0)).multiply(1.1)
+
+            it.isCancelled = true
         }
     ).build()
     val SPECIAL_TNT = ItemBuilder(

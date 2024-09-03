@@ -1,0 +1,155 @@
+'0':
+  name: "§cRed"
+  bedwars:
+    block:
+      glass: RED_STAINED_GLASS
+      general: RED_CONCRETE
+      wool: RED_WOOL
+    color:
+      ==: Color
+      ALPHA: 255
+      RED: 255
+      BLUE: 0
+      GREEN: 0
+    blocks:
+      general: RED_CONCRETE
+      glass: RED_STAINED_GLASS
+      wool: RED_WOOL
+
+'1':
+  name: "§9Blue"
+  bedwars:
+    block:
+      glass: BLUE_STAINED_GLASS
+      general: BLUE_CONCRETE
+      wool: BLUE_WOOL
+    color:
+      ==: Color
+      ALPHA: 255
+      RED: 0
+      BLUE: 255
+      GREEN: 0
+    blocks:
+      general: BLUE_CONCRETE
+      glass: BLUE_STAINED_GLASS
+      wool: BLUE_WOOL
+
+'2':
+  name: "§bAqua"
+  bedwars:
+    block:
+      glass: LIGHT_BLUE_STAINED_GLASS
+      general: LIGHT_BLUE_CONCRETE
+      wool: LIGHT_BLUE_WOOL
+    color:
+      ==: Color
+      ALPHA: 255
+      RED: 0
+      BLUE: 255
+      GREEN: 255
+    blocks:
+      general: AQUA_CONCRETE
+      glass: AQUA_STAINED_GLASS
+      wool: AQUA_WOOL
+
+'3':
+  name: "§dPurple"
+  bedwars:
+    block:
+      glass: PURPLE_STAINED_GLASS
+      general: PURPLE_CONCRETE
+      wool: PURPLE_WOOL
+    color:
+      ==: Color
+      ALPHA: 255
+      RED: 128
+      BLUE: 128
+      GREEN: 0
+    blocks:
+      general: PURPLE_CONCRETE
+      glass: PURPLE_STAINED_GLASS
+      wool: PURPLE_WOOL
+
+'4':
+  name: "§eYellow"
+  bedwars:
+    blocks:
+      general: YELLOW_CONCRETE
+      glass: YELLOW_STAINED_GLASS
+      wool: YELLOW_WOOL
+    color:
+      ==: Color
+      ALPHA: 255
+      RED: 255
+      BLUE: 0
+      GREEN: 255
+
+'5':
+  name: "§aGreen"
+  bedwars:
+    blocks:
+      general: GREEN_CONCRETE
+      glass: GREEN_STAINED_GLASS
+      wool: GREEN_WOOL
+    color:
+      ==: Color
+      ALPHA: 255
+      RED: 0
+      BLUE: 0
+      GREEN: 128
+
+'6':
+  name: "§6Orange"
+  bedwars:
+    blocks:
+      general: ORANGE_CONCRETE
+      glass: ORANGE_STAINED_GLASS
+      wool: ORANGE_WOOL
+    color:
+      ==: Color
+      ALPHA: 255
+      RED: 255
+      BLUE: 0
+      GREEN: 165
+
+'7':
+  name: "§0Black"
+  bedwars:
+    blocks:
+      general: BLACK_CONCRETE
+      glass: BLACK_STAINED_GLASS
+      wool: BLACK_WOOL
+    color:
+      ==: Color
+      ALPHA: 255
+      RED: 0
+      BLUE: 0
+      GREEN: 0
+
+'8':
+  name: "§fWhite"
+  bedwars:
+    blocks:
+      general: WHITE_CONCRETE
+      glass: WHITE_STAINED_GLASS
+      wool: WHITE_WOOL
+    color:
+      ==: Color
+      ALPHA: 255
+      RED: 255
+      BLUE: 255
+      GREEN: 255
+
+'9':
+  name: "§7Gray"
+  bedwars:
+    blocks:
+      general: GRAY_CONCRETE
+      glass: GRAY_STAINED_GLASS
+      wool: GRAY_WOOL
+    color:
+      ==: Color
+      ALPHA: 255
+      RED: 128
+      BLUE: 128
+      GREEN: 128

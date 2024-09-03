@@ -5,11 +5,13 @@ import de.c4vxl.bedwars.handlers.GameStartHandler
 import de.c4vxl.bedwars.handlers.RespawnHandler
 import de.c4vxl.bedwars.handlers.ShopHandler
 import de.c4vxl.gamelobby.utils.ItemBuilder
+import de.c4vxl.gamemanager.gamemanagementapi.world.WorldManager
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
 
 class BedWars : JavaPlugin() {
     companion object {
@@ -33,6 +35,10 @@ class BedWars : JavaPlugin() {
         // register commands
         CommandAPI.onEnable()
 
+        // generate teams config with preconfigured teams
+        logger.info("Overriding teams.yml file!")
+        saveResource("teams.yml", true)
+        File(dataFolder, "teams.yml").copyTo(File(WorldManager.mapsContainerPath, "teams.yml"), true)
 
         // register listeners
         RespawnHandler(this)
