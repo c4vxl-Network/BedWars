@@ -36,7 +36,7 @@ class ShopHandler(val plugin: Plugin): Listener {
                 entity.isVisualFire = false
                 entity.setAI(false)
                 entity.setGravity(false)
-                entity.persistentDataContainer.set(NamespacedKey(plugin, "isShop"), PersistentDataType.BOOLEAN, true)
+                entity.persistentDataContainer.set(NamespacedKey(plugin, "isShop"), PersistentDataType.STRING, "true")
             }
         }
     }
@@ -55,7 +55,7 @@ class ShopHandler(val plugin: Plugin): Listener {
         event.player.asGamePlayer.game ?: return
 
         // return if entity is not a shop
-        if (entity.persistentDataContainer.get(NamespacedKey(plugin, "isShop"), PersistentDataType.BOOLEAN) != true) return
+        if (!entity.persistentDataContainer.has(NamespacedKey(plugin, "isShop"))) return
 
         event.isCancelled = true
 

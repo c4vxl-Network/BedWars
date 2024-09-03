@@ -46,7 +46,7 @@ class BedWars : JavaPlugin() {
         GameStartHandler(this)
         BlockHandler(this)
 
-        logger.info("[+] $name has been enabled! \n  -> using version ${pluginMeta.version}")
+        logger.info("[+] $name has been enabled!")
     }
 
     override fun onDisable() {
