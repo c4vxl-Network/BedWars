@@ -226,7 +226,7 @@ class Items(private val team: Team) {
             it.player.setCooldown(item.type, 20 * 16)
 
             // spawn tnt with 3 seconds timer
-            (pos.world.spawnEntity(pos.location, EntityType.PRIMED_TNT) as TNTPrimed).fuseTicks = 20 * 3
+            (pos.world.spawnEntity(pos.location.add(0.0, 2.0, 0.0), EntityType.PRIMED_TNT) as TNTPrimed).fuseTicks = 20 * 3
 
             it.isCancelled = true
 
