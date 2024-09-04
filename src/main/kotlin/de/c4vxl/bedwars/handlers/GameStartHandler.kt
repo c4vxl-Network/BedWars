@@ -5,6 +5,7 @@ import de.c4vxl.gamemanager.gamemanagementapi.event.GameStateChangeEvent
 import de.c4vxl.gamemanager.gamemanagementapi.event.GameWorldLoadEvent
 import de.c4vxl.gamemanager.gamemanagementapi.game.GameState
 import org.bukkit.Bukkit
+import org.bukkit.Difficulty
 import org.bukkit.GameRule
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -28,6 +29,8 @@ class GameStartHandler(val plugin: Plugin): Listener {
 
         // set game-rules
         world.setGameRule(GameRule.KEEP_INVENTORY, true)
+        world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false)
+        world.difficulty = Difficulty.PEACEFUL
         world.time = 1200
     }
 

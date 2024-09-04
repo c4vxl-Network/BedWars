@@ -1,9 +1,6 @@
 package de.c4vxl.bedwars
 
-import de.c4vxl.bedwars.handlers.BlockHandler
-import de.c4vxl.bedwars.handlers.GameStartHandler
-import de.c4vxl.bedwars.handlers.RespawnHandler
-import de.c4vxl.bedwars.handlers.ShopHandler
+import de.c4vxl.bedwars.handlers.*
 import de.c4vxl.gamelobby.utils.ItemBuilder
 import de.c4vxl.gamemanager.gamemanagementapi.world.WorldManager
 import dev.jorel.commandapi.CommandAPI
@@ -45,6 +42,7 @@ class BedWars : JavaPlugin() {
         ShopHandler(this)
         GameStartHandler(this)
         BlockHandler(this)
+        AxeDamageHandler(this)
 
         logger.info("[+] $name has been enabled!")
     }
