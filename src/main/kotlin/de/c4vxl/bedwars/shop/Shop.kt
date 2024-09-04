@@ -249,6 +249,7 @@ object Shop {
             buyableItem(items.SPECIAL_ENDER_PEARL, Material.GOLD_INGOT, 2) to 22,
             buyableItem(items.SPECIAL_TNT, Material.IRON_INGOT, 2) to 23,
             buyableItem(items.SPECIAL_FIREBALL, Material.BRICK, 64) to 24,
+            buyableItem(items.SPECIAL_TEAM_CHEST, Material.IRON_INGOT, 2) to 25,
         ).forEach { (t, u) -> pages[4].setItem(u, t) }
 
         player.openInventory(pages[0])

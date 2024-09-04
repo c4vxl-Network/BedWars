@@ -31,7 +31,7 @@ import org.bukkit.util.Vector
 
 class Items(private val team: Team) {
     private fun item(material: Material, name: String, suffix: String = "", enchantments: MutableMap<Enchantment, Int> = mutableMapOf()): ItemStack =
-        ItemBuilder(material, Component.text(name).decorate(TextDecoration.BOLD).append(Component.text(" $suffix")), enchantments = enchantments).build()
+        ItemBuilder(material, Component.text("").append(Component.text(name).decorate(TextDecoration.BOLD)).append(Component.text(" $suffix")), enchantments = enchantments).build()
 
     // blocks
     val BLOCKS_PRIMARY = item(team.generalBlock, "Blocks")
@@ -281,4 +281,18 @@ class Items(private val team: Team) {
     val SPECIAL_ENDER_PEARL = item(Material.ENDER_PEARL, "Ender pearl")
     val SPECIAL_COBWEB = item(Material.COBWEB, "Cobweb")
     val SPECIAL_KB_STICK = item(Material.STICK, "Knockback stick", enchantments = mutableMapOf(Enchantment.KNOCKBACK to 2))
+    val SPECIAL_TEAM_CHEST = ItemBuilder(
+        Material.CHEST,
+        itemMeta = item(Material.CHEST, "Portable Team chest", "| Right click").itemMeta,
+        interactonHandler = {
+            if (!it.action.isRightClick) return@ItemBuilder
+
+            val item = it.item ?: return@ItemBuilder
+            val team: Team = it.player.asGamePlayer.team ?: return@ItemBuilder
+
+            it.player.openInventory(TeamChest.get(team))
+
+            it.isCancelled = true
+        }
+    ).build()
 }

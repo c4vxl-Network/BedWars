@@ -76,7 +76,7 @@ class RespawnHandler(plugin: Plugin): Listener {
         val killer = event.player.killer
 
         if (killer != null) {
-            game.broadcast(BedWars.prefix.append(Component.text("${player.bukkitPlayer.name}").color(NamedTextColor.WHITE)
+            game.broadcast(BedWars.prefix.append(Component.text(player.bukkitPlayer.name).color(NamedTextColor.WHITE)
                     .append(Component.text(" has been"))
                     .append(Component.text(" killed").color(NamedTextColor.RED))
                     .append(Component.text(" by"))

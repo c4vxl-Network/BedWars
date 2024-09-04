@@ -1,6 +1,7 @@
 package de.c4vxl.bedwars.handlers
 
 import de.c4vxl.bedwars.BedWars
+import de.c4vxl.bedwars.shop.items.TeamChest
 import de.c4vxl.gamemanager.gamemanagementapi.GameManagementAPI
 import de.c4vxl.gamemanager.gamemanagementapi.event.GameStopEvent
 import de.c4vxl.gamemanager.gamemanagementapi.game.Game
@@ -105,5 +106,8 @@ class BlockHandler(plugin: Plugin): Listener {
         // remove placed blocks array for a game as it stops
         // we do this, so we don't have to iterate over data which we will never use again
         placedBlocks.remove(event.game)
+
+        // remove team chests of game
+        TeamChest.remove(event.game)
     }
 }
