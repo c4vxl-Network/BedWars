@@ -198,7 +198,7 @@ class Items(private val team: Team) {
             )
 
             locations.forEach { l ->
-                if (l.block.isLiquid || l.block.isSolid) {
+                if (l.block.type.isAir || l.block.isLiquid) {
                     l.block.type = block
                     BlockHandler.addBlock(it.player.asGamePlayer.game ?: return@ItemBuilder, l.block)
                 }
