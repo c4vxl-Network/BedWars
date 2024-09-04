@@ -205,7 +205,7 @@ object Shop {
         // page 2
         mutableMapOf<ItemStack, Int>(
             buyableItem(items.TOOLS_SWORD_LVL1, Material.BRICK, 4) to 18,
-            buyableItem(items.TOOLS_SWORD_LVL2, Material.IRON_SWORD, 10) to 19,
+            buyableItem(items.TOOLS_SWORD_LVL2, Material.IRON_INGOT, 10) to 19,
             buyableItem(items.TOOLS_SWORD_LVL3, Material.GOLD_INGOT, 6) to 20,
             buyableItem(items.TOOLS_PICKAXE_LVL1, Material.BRICK, 12) to 27,
             buyableItem(items.TOOLS_PICKAXE_LVL2, Material.IRON_INGOT, 3) to 28,

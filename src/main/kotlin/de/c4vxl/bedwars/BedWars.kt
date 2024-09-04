@@ -43,6 +43,7 @@ class BedWars : JavaPlugin() {
         GameStartHandler(this)
         BlockHandler(this)
         AxeDamageHandler(this)
+        CraftingHandler(this)
 
         logger.info("[+] $name has been enabled!")
     }

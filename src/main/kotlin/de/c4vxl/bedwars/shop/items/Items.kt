@@ -169,6 +169,15 @@ class Items(private val team: Team) {
             if (!it.action.isRightClick) return@ItemBuilder
             val item = it.item ?: return@ItemBuilder
 
+            if (it.player.getCooldown(item.type) > 0) {
+                it.player.sendMessage(BedWars.prefix.append(Component.text("This item has not recovered yet!!").color(
+                    NamedTextColor.RED)))
+                return@ItemBuilder
+            }
+
+            // 16 sec cooldown
+            it.player.setCooldown(item.type, 20 * 3)
+
             val block = it.player.asGamePlayer.team?.glassBlock ?: Material.GLASS
 
             val start = it.player.location.subtract(0.0, 3.0, 0.0)
@@ -188,7 +197,12 @@ class Items(private val team: Team) {
                 start.clone().add(-1.0, 0.0, -1.0),
             )
 
-            locations.forEach { l -> l.block.type = block }
+            locations.forEach { l ->
+                if (l.block.isLiquid || l.block.isSolid) {
+                    l.block.type = block
+                    BlockHandler.addBlock(it.player.asGamePlayer.game ?: return@ItemBuilder, l.block)
+                }
+            }
 
             item.amount -= 1
 
@@ -221,6 +235,8 @@ class Items(private val team: Team) {
         Material.TNT,
         itemMeta = item(Material.TNT, "Explosive", "| Right click").itemMeta,
         interactonHandler = {
+            if (!it.action.isRightClick) return@ItemBuilder
+
             val pos = it.clickedBlock ?: return@ItemBuilder
             val item = it.item ?: return@ItemBuilder
 
