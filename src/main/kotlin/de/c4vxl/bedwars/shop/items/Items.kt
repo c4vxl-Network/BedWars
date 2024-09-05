@@ -31,7 +31,7 @@ import org.bukkit.util.Vector
 
 class Items(private val team: Team) {
     private fun item(material: Material, name: String, suffix: String = "", enchantments: MutableMap<Enchantment, Int> = mutableMapOf()): ItemStack =
-        ItemBuilder(material, Component.text("").append(Component.text(name).decorate(TextDecoration.BOLD)).append(Component.text(" $suffix")), enchantments = enchantments).build()
+        ItemBuilder(material, Component.text("").append(Component.text(name).decorate(TextDecoration.BOLD)).append(Component.text(" $suffix")), unbreakable = true, enchantments = enchantments).build()
 
     // blocks
     val BLOCKS_PRIMARY = item(team.generalBlock, "Blocks")
@@ -41,7 +41,7 @@ class Items(private val team: Team) {
     val BLOCKS_OBSIDIAN = item(Material.OBSIDIAN, "Obsidian")
     val BLOCKS_WOOD = item(Material.OAK_PLANKS, "Wood")
     val BLOCKS_IRON = item(Material.IRON_BLOCK, "Iron Block")
-    val BLOCKS_LADDER = item(Material.LADDER, "Iron Block")
+    val BLOCKS_LADDER = item(Material.LADDER, "Ladder")
     val BLOCKS_INSTANT_BRIDGE = ItemBuilder(
         Material.SANDSTONE_SLAB,
         itemMeta = item(Material.SANDSTONE_SLAB, "Instant bridge", "| Right click").itemMeta,
@@ -293,6 +293,20 @@ class Items(private val team: Team) {
             it.player.openInventory(TeamChest.get(team))
 
             it.isCancelled = true
+        }
+    ).build()
+    val SPECIAL_BASE_TP = ItemBuilder(
+        Material.GUNPOWDER,
+        itemMeta = item(Material.GUNPOWDER, "Base teleporter", "| Right click").itemMeta,
+        interactonHandler = {
+            if (!it.action.isRightClick) return@ItemBuilder
+
+            val item = it.item ?: return@ItemBuilder
+
+            BaseTP.start(it.player)
+
+            it.isCancelled = true
+            item.amount -= 1
         }
     ).build()
 }
