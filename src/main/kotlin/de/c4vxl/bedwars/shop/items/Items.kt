@@ -3,10 +3,10 @@ package de.c4vxl.bedwars.shop.items
 import de.c4vxl.bedwars.BedWars
 import de.c4vxl.bedwars.handlers.BlockHandler
 import de.c4vxl.bedwars.utils.BlockUtils
+import de.c4vxl.bedwars.utils.ItemBuilder
 import de.c4vxl.bedwars.utils.TeamData.generalBlock
 import de.c4vxl.bedwars.utils.TeamData.glassBlock
 import de.c4vxl.bedwars.utils.TeamData.woolBlock
-import de.c4vxl.gamelobby.utils.ItemBuilder
 import de.c4vxl.gamemanager.gamemanagementapi.player.GMAPlayer.Companion.asGamePlayer
 import de.c4vxl.gamemanager.gamemanagementapi.team.Team
 import net.kyori.adventure.text.Component

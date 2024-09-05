@@ -1,7 +1,5 @@
 package de.c4vxl.bedwars.utils
 
-import de.c4vxl.bedwars.utils.TeamData.color
-import de.c4vxl.gamelobby.utils.ItemBuilder
 import de.c4vxl.gamemanager.gamemanagementapi.team.Team
 import de.c4vxl.gamemanager.gamemanagementapi.world.WorldManager
 import net.kyori.adventure.text.Component
@@ -56,7 +54,7 @@ object TeamData {
             this.setItemMeta(meta)
         }.let {
             // cancel all invClickEvents
-            ItemBuilder(it.type, itemMeta = it.itemMeta, invClickHandler = { it.isCancelled = true }).build()
+            ItemBuilder(it.type, itemMeta = it.itemMeta, unbreakable = true, invClickHandler = { it.isCancelled = true }).build()
         }
 
         return mutableListOf(

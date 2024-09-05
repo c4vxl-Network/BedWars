@@ -186,6 +186,6 @@ class RespawnHandler(plugin: Plugin): Listener {
 
         // make player a spectator
         player.spectate(event.game)
-        player.bukkitPlayer.sendTitlePart(TitlePart.TITLE, Component.text("You have been").append(Component.text("ELIMINATED").color(NamedTextColor.RED)).append(Component.text("!")))
+        player.bukkitPlayer.sendTitlePart(TitlePart.TITLE, Component.text("You have been ").append(Component.text("ELIMINATED").color(NamedTextColor.RED)).append(Component.text("!")))
     }
 }

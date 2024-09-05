@@ -3,8 +3,8 @@ package de.c4vxl.bedwars.shop
 
 import de.c4vxl.bedwars.BedWars
 import de.c4vxl.bedwars.shop.items.Items
+import de.c4vxl.bedwars.utils.ItemBuilder
 import de.c4vxl.bedwars.utils.TeamData.generalBlock
-import de.c4vxl.gamelobby.utils.ItemBuilder
 import de.c4vxl.gamemanager.gamemanagementapi.player.GMAPlayer.Companion.asGamePlayer
 import de.c4vxl.gamemanager.gamemanagementapi.team.Team
 import net.kyori.adventure.text.Component
@@ -17,7 +17,6 @@ import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.LeatherArmorMeta
 import java.util.*
 
 object Shop {
@@ -68,12 +67,6 @@ object Shop {
                 event.isCancelled = true
 
                 val player: Player = event.whoClicked as? Player ?: return@ItemBuilder
-
-                // Return if player cannot pay
-                if (!player.inventory.contains(currency, price)) {
-                    player.sendMessage(BedWars.prefix.append(Component.text("You cannot afford this item!").color(NamedTextColor.RED)))
-                    return@ItemBuilder
-                }
 
                 when (event.action) {
                     InventoryAction.MOVE_TO_OTHER_INVENTORY -> {
@@ -135,10 +128,22 @@ object Shop {
                 Component.text(""),
                 Component.text("Click to purchase").color(NamedTextColor.YELLOW).decorate()
             ),
-            item.itemMeta?.isUnbreakable ?: false,
+            true,
             item.enchantments,
             invClickHandler = { event: InventoryClickEvent ->
                 event.isCancelled = true
+
+
+                val isUpgrade: Boolean = mutableListOf("LEATHER", "CHAINMAIL", "GOLDEN", "IRON", "DIAMOND").let {
+                    val current = it.indexOf(event.whoClicked.inventory.armorContents[0]?.type?.name?.split("_")?.getOrNull(0) ?: "LEATHER")
+                    val toBuy = it.indexOf(item.type.name.split("_").getOrNull(0))
+                    current < toBuy
+                }
+
+                if (!isUpgrade) {
+                    event.whoClicked.sendMessage(BedWars.prefix.append(Component.text("You already have this or a better armor!").color(NamedTextColor.RED)))
+                    return@ItemBuilder
+                }
 
                 // return if player can not pay
                 if (!removeCurrencyFromPlayer(event.whoClicked as? Player ?: return@ItemBuilder, currency, price)) {

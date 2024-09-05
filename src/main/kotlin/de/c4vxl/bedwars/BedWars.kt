@@ -1,7 +1,7 @@
 package de.c4vxl.bedwars
 
 import de.c4vxl.bedwars.handlers.*
-import de.c4vxl.gamelobby.utils.ItemBuilder
+import de.c4vxl.bedwars.utils.ItemBuilder
 import de.c4vxl.gamemanager.gamemanagementapi.world.WorldManager
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig

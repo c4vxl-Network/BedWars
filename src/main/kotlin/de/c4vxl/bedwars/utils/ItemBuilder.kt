@@ -1,4 +1,4 @@
-package de.c4vxl.gamelobby.utils
+package de.c4vxl.bedwars.utils
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
@@ -10,7 +10,9 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
+import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.Plugin
+import java.util.UUID
 
 class ItemBuilder(
     var material: Material,
@@ -21,10 +23,11 @@ class ItemBuilder(
     var enchantments: MutableMap<Enchantment, Int> = mutableMapOf(),
     var interactonHandler: ((PlayerInteractEvent) -> Unit)? = null,
     var invClickHandler: ((InventoryClickEvent) -> Unit)? = null,
-    var itemMeta: ItemMeta? = null) {
+    var itemMeta: ItemMeta? = null
+) {
     companion object : Listener {
-        val interactionHandlers: MutableMap<Int, (PlayerInteractEvent) -> Unit> = mutableMapOf()
-        val inventoryClickHandlers: MutableMap<Int, (InventoryClickEvent) -> Unit> = mutableMapOf()
+        val interactionHandlers: MutableMap<String, (PlayerInteractEvent) -> Unit> = mutableMapOf()
+        val inventoryClickHandlers: MutableMap<String, (InventoryClickEvent) -> Unit> = mutableMapOf()
 
         fun register(plugin: Plugin) {
             Bukkit.getPluginManager().registerEvents(this, plugin)
@@ -33,13 +36,19 @@ class ItemBuilder(
         @EventHandler
         fun onItemInteraction(event: PlayerInteractEvent) {
             val currentItem: ItemStack = event.item ?: return
-            interactionHandlers[currentItem.itemMeta?.hashCode()]?.invoke(event)
+            val meta = currentItem.itemMeta ?: return
+            val key = meta.persistentDataContainer.get(UniqueKey.ITEM_KEY, PersistentDataType.STRING) ?: return
+
+            interactionHandlers[key]?.invoke(event)
         }
 
         @EventHandler
         fun onInventoryClick(event: InventoryClickEvent) {
             val currentItem: ItemStack = event.currentItem ?: return
-            inventoryClickHandlers[currentItem.itemMeta?.hashCode()]?.invoke(event)
+            val meta = currentItem.itemMeta ?: return
+            val key = meta.persistentDataContainer.get(UniqueKey.ITEM_KEY, PersistentDataType.STRING) ?: return
+
+            inventoryClickHandlers[key]?.invoke(event)
         }
     }
 
@@ -54,9 +63,16 @@ class ItemBuilder(
             this.addUnsafeEnchantments(this@ItemBuilder.enchantments)
         }
 
-        interactonHandler?.let { interactionHandlers[itemMeta.hashCode()] = it }
-        invClickHandler?.let { inventoryClickHandlers[itemMeta.hashCode()] = it }
+        val uniqueId = itemStack.itemMeta!!.persistentDataContainer.get(UniqueKey.ITEM_KEY, PersistentDataType.STRING)!!
+
+        interactonHandler?.let { interactionHandlers[uniqueId] = it }
+        invClickHandler?.let { inventoryClickHandlers[uniqueId] = it }
 
         return itemStack
     }
+}
+
+// Utility class to define unique keys for item metadata
+object UniqueKey {
+    val ITEM_KEY = org.bukkit.NamespacedKey.minecraft("unique_item_id")
 }

@@ -1,6 +1,6 @@
 package de.c4vxl.bedwars.handlers
 
-import de.c4vxl.gamelobby.utils.ItemBuilder
+import de.c4vxl.bedwars.utils.ItemBuilder
 import de.c4vxl.gamemanager.gamemanagementapi.game.Game
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Location
