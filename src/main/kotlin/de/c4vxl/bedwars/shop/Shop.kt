@@ -262,7 +262,7 @@ object Shop {
             buyableItem(items.SPECIAL_BASE_TP, Material.IRON_INGOT, 2) to 28,
             buyableItem(items.SPECIAL_PLAYER_COMPASS, Material.IRON_INGOT, 1) to 29,
             buyableItem(items.SPECIAL_FREEZER, Material.IRON_INGOT, 12) to 30,
-            buyableItem(items.SPECIAL_SHOP, Material.GOLD_INGOT, 2) to 30,
+            buyableItem(items.SPECIAL_SHOP, Material.GOLD_INGOT, 2) to 31,
         ).forEach { (t, u) -> pages[4].setItem(u, t) }
 
         // replace all empty slots with filler item
