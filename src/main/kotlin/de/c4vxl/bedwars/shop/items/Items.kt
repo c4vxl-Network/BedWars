@@ -2,6 +2,7 @@ package de.c4vxl.bedwars.shop.items
 
 import de.c4vxl.bedwars.BedWars
 import de.c4vxl.bedwars.handlers.BlockHandler
+import de.c4vxl.bedwars.shop.Shop
 import de.c4vxl.bedwars.shop.items.handlers.BaseTP
 import de.c4vxl.bedwars.shop.items.handlers.Freezer
 import de.c4vxl.bedwars.shop.items.handlers.PlayerCompass
@@ -394,6 +395,27 @@ class Items(private val team: Team) {
             proj.persistentDataContainer.set(NamespacedKey.minecraft("bw.item.freezer"), PersistentDataType.BOOLEAN, true)
 
             it.item?.let { it.amount -= 1 }
+
+            it.isCancelled = true
+        }
+    ).build()
+    val SPECIAL_SHOP = ItemBuilder(
+        Material.EMERALD_BLOCK,
+        itemMeta = item(Material.EMERALD_BLOCK, "Portable shop", "| Right click").itemMeta,
+        interactonHandler = {
+            if (!it.action.isRightClick) return@ItemBuilder
+
+            val player: Player = it.player
+            val game: Game = player.asGamePlayer.game ?: return@ItemBuilder
+
+            if (it.player.getCooldown(it.item!!.type) > 0) return@ItemBuilder
+
+            // 5 sec cooldown
+            it.player.setCooldown(it.item!!.type, 20 * 5)
+
+            Shop.openShop(it.player)
+
+            it.item!!.amount -= 1
 
             it.isCancelled = true
         }
