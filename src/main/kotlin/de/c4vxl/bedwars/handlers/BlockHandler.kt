@@ -1,7 +1,8 @@
 package de.c4vxl.bedwars.handlers
 
 import de.c4vxl.bedwars.BedWars
-import de.c4vxl.bedwars.shop.items.TeamChest
+import de.c4vxl.bedwars.shop.items.handlers.PlayerCompass
+import de.c4vxl.bedwars.shop.items.handlers.TeamChest
 import de.c4vxl.gamemanager.gamemanagementapi.GameManagementAPI
 import de.c4vxl.gamemanager.gamemanagementapi.event.GameStopEvent
 import de.c4vxl.gamemanager.gamemanagementapi.game.Game
@@ -109,5 +110,8 @@ class BlockHandler(plugin: Plugin): Listener {
 
         // remove team chests of game
         TeamChest.remove(event.game)
+
+        // remove player targets
+        PlayerCompass.remove(event.game)
     }
 }

@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack
 import java.util.*
 
 object Shop {
-    private fun removeCurrencyFromPlayer(player: Player, currency: Material, price: Int): Boolean {
+    fun removeCurrencyFromPlayer(player: Player, currency: Material, price: Int): Boolean {
         var remainingAmount = price
         val inventory = player.inventory
 
@@ -50,7 +50,7 @@ object Shop {
         return ItemBuilder(
             item.type,
             item.itemMeta.displayName() ?: Component.text(""),
-            item.amount,
+            amount,
             mutableListOf(
                 Component.text(""),
                 Component.text("Cost: ")
@@ -254,11 +254,14 @@ object Shop {
             buyableItem(items.SPECIAL_KB_STICK, Material.IRON_INGOT, 6) to 20,
             buyableItem(items.SPECIAL_COBWEB, Material.BRICK, 16) to 21,
             buyableItem(items.SPECIAL_ENDER_PEARL, Material.GOLD_INGOT, 2) to 22,
-            buyableItem(items.SPECIAL_TNT, Material.IRON_INGOT, 2) to 23,
-            buyableItem(items.SPECIAL_FIREBALL, Material.BRICK, 64) to 24,
-            buyableItem(items.SPECIAL_TEAM_CHEST, Material.IRON_INGOT, 2) to 25,
-            buyableItem(items.SPECIAL_PRIVATE_CHEST, Material.IRON_INGOT, 6) to 26,
-            buyableItem(items.SPECIAL_BASE_TP, Material.IRON_INGOT, 2) to 27,
+            buyableItem(items.SPECIAL_TIME_PEARL, Material.GOLD_INGOT, 6) to 23,
+            buyableItem(items.SPECIAL_TNT, Material.IRON_INGOT, 2) to 24,
+            buyableItem(items.SPECIAL_FIREBALL, Material.BRICK, 64) to 25,
+            buyableItem(items.SPECIAL_TEAM_CHEST, Material.IRON_INGOT, 2) to 26,
+            buyableItem(items.SPECIAL_PRIVATE_CHEST, Material.IRON_INGOT, 6) to 27,
+            buyableItem(items.SPECIAL_BASE_TP, Material.IRON_INGOT, 2) to 28,
+            buyableItem(items.SPECIAL_PLAYER_COMPASS, Material.IRON_INGOT, 1) to 29,
+            buyableItem(items.SPECIAL_FREEZER, Material.IRON_INGOT, 12) to 30,
         ).forEach { (t, u) -> pages[4].setItem(u, t) }
 
         // replace all empty slots with filler item

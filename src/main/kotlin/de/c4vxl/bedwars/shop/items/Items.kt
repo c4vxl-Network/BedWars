@@ -2,27 +2,32 @@ package de.c4vxl.bedwars.shop.items
 
 import de.c4vxl.bedwars.BedWars
 import de.c4vxl.bedwars.handlers.BlockHandler
+import de.c4vxl.bedwars.shop.items.handlers.BaseTP
+import de.c4vxl.bedwars.shop.items.handlers.Freezer
+import de.c4vxl.bedwars.shop.items.handlers.PlayerCompass
+import de.c4vxl.bedwars.shop.items.handlers.TeamChest
 import de.c4vxl.bedwars.utils.BlockUtils
 import de.c4vxl.bedwars.utils.ItemBuilder
 import de.c4vxl.bedwars.utils.TeamData.generalBlock
 import de.c4vxl.bedwars.utils.TeamData.glassBlock
 import de.c4vxl.bedwars.utils.TeamData.woolBlock
+import de.c4vxl.gamemanager.gamemanagementapi.game.Game
 import de.c4vxl.gamemanager.gamemanagementapi.player.GMAPlayer.Companion.asGamePlayer
 import de.c4vxl.gamemanager.gamemanagementapi.team.Team
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.block.BlockFace
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.entity.EntityType
-import org.bukkit.entity.Fireball
-import org.bukkit.entity.Player
-import org.bukkit.entity.TNTPrimed
+import org.bukkit.entity.*
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
+import org.bukkit.persistence.PersistentDataType
 import org.bukkit.potion.PotionData
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
@@ -30,6 +35,11 @@ import org.bukkit.potion.PotionType
 import org.bukkit.util.Vector
 
 class Items(private val team: Team) {
+    init {
+        // init item listeners
+        Freezer
+    }
+
     private fun item(material: Material, name: String, suffix: String = "", enchantments: MutableMap<Enchantment, Int> = mutableMapOf()): ItemStack =
         ItemBuilder(material, Component.text("").append(Component.text(name).decorate(TextDecoration.BOLD)).append(Component.text(" $suffix")), unbreakable = true, enchantments = enchantments).build()
 
@@ -249,7 +259,7 @@ class Items(private val team: Team) {
             it.player.setCooldown(item.type, 20 * 16)
 
             // spawn tnt with 3 seconds timer
-            (pos.world.spawnEntity(pos.location.add(0.0, 2.0, 0.0), EntityType.PRIMED_TNT) as TNTPrimed).fuseTicks = 20 * 3
+            (pos.world.spawnEntity(pos.location.add(0.0, 2.0, 0.0).block.location, EntityType.PRIMED_TNT) as TNTPrimed).fuseTicks = 20 * 3
 
             it.isCancelled = true
 
@@ -257,8 +267,8 @@ class Items(private val team: Team) {
         }
     ).build()
     val SPECIAL_FIREBALL = ItemBuilder(
-        Material.LEGACY_FIREBALL,
-        itemMeta = item(Material.LEGACY_FIREBALL, "Fireball", "| Right click").itemMeta,
+        Material.FIRE_CHARGE,
+        itemMeta = item(Material.FIRE_CHARGE, "Fireball", "| Right click").itemMeta,
         interactonHandler = {
             if (!it.action.isRightClick) return@ItemBuilder
             val item = it.item ?: return@ItemBuilder
@@ -304,8 +314,8 @@ class Items(private val team: Team) {
         }
     ).build()
     val SPECIAL_PRIVATE_CHEST = ItemBuilder(
-        Material.CHEST,
-        itemMeta = item(Material.CHEST, "Private chest", "| Right click").itemMeta,
+        Material.ENDER_CHEST,
+        itemMeta = item(Material.ENDER_CHEST, "Private chest", "| Right click").itemMeta,
         interactonHandler = {
             if (!it.action.isRightClick) return@ItemBuilder
 
@@ -328,10 +338,64 @@ class Items(private val team: Team) {
 
             val item = it.item ?: return@ItemBuilder
 
+            if (it.player.getCooldown(it.item!!.type) > 0) return@ItemBuilder
+
+            // 17 sec cooldown
+            it.player.setCooldown(it.item!!.type, 20 * 17)
+
             BaseTP.start(it.player)
 
             it.isCancelled = true
             item.amount -= 1
+        }
+    ).build()
+    val SPECIAL_PLAYER_COMPASS = ItemBuilder(
+        Material.COMPASS,
+        itemMeta = item(Material.COMPASS, "Player Compass", "| Right click").itemMeta,
+        interactonHandler = {
+            if (!it.action.isRightClick) return@ItemBuilder
+            PlayerCompass.openGUI(it.player)
+            it.isCancelled = true
+        }
+    ).build()
+    val SPECIAL_TIME_PEARL = ItemBuilder(
+        Material.ENDER_PEARL,
+        itemMeta = item(Material.ENDER_PEARL, "Warp pearl", "| Right click").itemMeta,
+        interactonHandler = {
+            if (!it.action.isRightClick) return@ItemBuilder
+
+            val player: Player = it.player
+            val game: Game = player.asGamePlayer.game ?: return@ItemBuilder
+            val startLocation: Location = player.location
+
+            Bukkit.getScheduler().runTaskLater(BedWars.instance, Runnable {
+                if (player.asGamePlayer.game != game) return@Runnable
+                if (player.asGamePlayer.game?.worldManager?.world != player.world) return@Runnable
+
+                player.teleport(startLocation)
+            }, 20 * 10)
+        }
+    ).build()
+    val SPECIAL_FREEZER = ItemBuilder(
+        Material.ICE,
+        itemMeta = item(Material.ICE, "Freezer", "| Right click").itemMeta,
+        interactonHandler = {
+            if (!it.action.isRightClick) return@ItemBuilder
+
+            val player: Player = it.player
+            val game: Game = player.asGamePlayer.game ?: return@ItemBuilder
+
+            if (it.player.getCooldown(it.item!!.type) > 0) return@ItemBuilder
+
+            // 17 sec cooldown
+            it.player.setCooldown(it.item!!.type, 20 * 17)
+
+            val proj = player.launchProjectile(Snowball::class.java)
+            proj.persistentDataContainer.set(NamespacedKey.minecraft("bw.item.freezer"), PersistentDataType.BOOLEAN, true)
+
+            it.item?.let { it.amount -= 1 }
+
+            it.isCancelled = true
         }
     ).build()
 }

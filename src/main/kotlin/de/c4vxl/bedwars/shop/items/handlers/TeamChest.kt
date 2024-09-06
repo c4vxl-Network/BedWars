@@ -1,4 +1,4 @@
-package de.c4vxl.bedwars.shop.items
+package de.c4vxl.bedwars.shop.items.handlers
 
 import de.c4vxl.gamemanager.gamemanagementapi.game.Game
 import de.c4vxl.gamemanager.gamemanagementapi.player.GMAPlayer
