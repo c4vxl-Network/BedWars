@@ -168,8 +168,8 @@ object Shop {
         ).build()
     }
 
-    fun openShop(player: Player) {
-        val team: Team = player.asGamePlayer.team ?: return
+    fun getPage(player: Player, page: Int): Inventory? {
+        val team: Team = player.asGamePlayer.team ?: return null
 
         // create pages
         val pages: MutableList<Inventory> = mutableListOf<Inventory>().apply {
@@ -182,7 +182,7 @@ object Shop {
             Component.text(name).color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD),
             invClickHandler = {
                 it.isCancelled = true
-                it.whoClicked.openInventory(pages[page])
+                it.whoClicked.openInventory(getPage(it.whoClicked as? Player ?: return@ItemBuilder, page) ?: return@ItemBuilder)
             }
         ).build()
         pages.forEach {
@@ -257,10 +257,9 @@ object Shop {
             buyableItem(items.SPECIAL_TNT, Material.IRON_INGOT, 2) to 23,
             buyableItem(items.SPECIAL_FIREBALL, Material.BRICK, 64) to 24,
             buyableItem(items.SPECIAL_TEAM_CHEST, Material.IRON_INGOT, 2) to 25,
-            buyableItem(items.SPECIAL_BASE_TP, Material.IRON_INGOT, 2) to 26,
+            buyableItem(items.SPECIAL_PRIVATE_CHEST, Material.IRON_INGOT, 6) to 26,
+            buyableItem(items.SPECIAL_BASE_TP, Material.IRON_INGOT, 2) to 27,
         ).forEach { (t, u) -> pages[4].setItem(u, t) }
-
-        player.openInventory(pages[0])
 
         // replace all empty slots with filler item
         pages.forEach { it.contents = it.contents.map {
@@ -270,5 +269,11 @@ object Shop {
                 invClickHandler = { it.isCancelled = true }
             ).build()
         }.toTypedArray() }
+
+        return pages[page]
+    }
+
+    fun openShop(player: Player) {
+        player.openInventory(getPage(player, 0) ?: return)
     }
 }

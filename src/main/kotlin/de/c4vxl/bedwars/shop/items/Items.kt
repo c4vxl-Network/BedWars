@@ -169,6 +169,8 @@ class Items(private val team: Team) {
             if (!it.action.isRightClick) return@ItemBuilder
             val item = it.item ?: return@ItemBuilder
 
+            if (BaseTP.timeRemaining.containsKey(it.player.asGamePlayer)) return@ItemBuilder
+
             if (it.player.getCooldown(item.type) > 0) {
                 it.player.sendMessage(BedWars.prefix.append(Component.text("This item has not recovered yet!!").color(
                     NamedTextColor.RED)))
@@ -177,6 +179,7 @@ class Items(private val team: Team) {
 
             // 16 sec cooldown
             it.player.setCooldown(item.type, 20 * 3)
+            it.player.fallDistance /= 3
 
             val block = it.player.asGamePlayer.team?.glassBlock ?: Material.GLASS
 
@@ -287,12 +290,34 @@ class Items(private val team: Team) {
         interactonHandler = {
             if (!it.action.isRightClick) return@ItemBuilder
 
-            val item = it.item ?: return@ItemBuilder
             val team: Team = it.player.asGamePlayer.team ?: return@ItemBuilder
 
+            it.isCancelled = true
+
+            if (it.player.location.add(0.0, -2.0, 0.0).block.type.isAir && it.player.location.add(0.0, -1.0, 0.0).block.type.isAir) {
+                it.player.sendMessage(BedWars.prefix.append(Component.text("You can not open your team chest while falling!").color(
+                    NamedTextColor.RED)))
+                return@ItemBuilder
+            }
+
             it.player.openInventory(TeamChest.get(team))
+        }
+    ).build()
+    val SPECIAL_PRIVATE_CHEST = ItemBuilder(
+        Material.CHEST,
+        itemMeta = item(Material.CHEST, "Private chest", "| Right click").itemMeta,
+        interactonHandler = {
+            if (!it.action.isRightClick) return@ItemBuilder
 
             it.isCancelled = true
+
+            if (it.player.location.add(0.0, -2.0, 0.0).block.type.isAir && it.player.location.add(0.0, -1.0, 0.0).block.type.isAir) {
+                it.player.sendMessage(BedWars.prefix.append(Component.text("You can not open your private chest while falling!").color(
+                    NamedTextColor.RED)))
+                return@ItemBuilder
+            }
+
+            it.player.openInventory(TeamChest.get(it.player.asGamePlayer))
         }
     ).build()
     val SPECIAL_BASE_TP = ItemBuilder(

@@ -185,7 +185,7 @@ class RespawnHandler(plugin: Plugin): Listener {
         if (canRespawn.getOrPut(team) { true }) return
 
         // make player a spectator
-        player.spectate(event.game)
+        player.eliminate()
         player.bukkitPlayer.sendTitlePart(TitlePart.TITLE, Component.text("You have been ").append(Component.text("ELIMINATED").color(NamedTextColor.RED)).append(Component.text("!")))
     }
 }

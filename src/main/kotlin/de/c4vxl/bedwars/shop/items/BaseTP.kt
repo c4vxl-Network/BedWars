@@ -23,7 +23,7 @@ object BaseTP : Listener {
         Bukkit.getPluginManager().registerEvents(this, BedWars.instance)
     }
 
-    private val timeRemaining: MutableMap<GMAPlayer, Int> = mutableMapOf()
+    val timeRemaining: MutableMap<GMAPlayer, Int> = mutableMapOf()
 
     private fun createCircle(loc: Location) {
         val size = 1.0
@@ -88,6 +88,9 @@ object BaseTP : Listener {
         // remove player from list
         // this will cancel the teleport
         timeRemaining.remove(event.player.asGamePlayer)
+
+        // give item back
+        event.player.inventory.addItem(Items(event.player.asGamePlayer.team!!).SPECIAL_BASE_TP)
 
         // send message
         event.player.sendMessage(BedWars.prefix.append(Component.text("You teleport has been cancelled due to your movement!").color(NamedTextColor.RED)))
