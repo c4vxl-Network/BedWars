@@ -1,5 +1,6 @@
 package de.c4vxl.bedwars.handlers
 
+import de.c4vxl.bedwars.scoreboard.BedScoreboard
 import de.c4vxl.bedwars.utils.TeamData.coloredLeatherArmor
 import de.c4vxl.gamemanager.gamemanagementapi.event.GameStateChangeEvent
 import de.c4vxl.gamemanager.gamemanagementapi.event.GameWorldLoadEvent

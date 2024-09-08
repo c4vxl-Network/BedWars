@@ -43,6 +43,7 @@ class ShopHandler(val plugin: Plugin): Listener {
                 entity.isVisualFire = false
                 entity.setAI(false)
                 entity.setGravity(false)
+                entity.isSilent = true
                 entity.persistentDataContainer.set(NamespacedKey(plugin, "isShop"), PersistentDataType.STRING, "true")
             }
         }

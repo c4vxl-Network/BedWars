@@ -1,6 +1,7 @@
 package de.c4vxl.bedwars.handlers
 
 import de.c4vxl.bedwars.BedWars
+import de.c4vxl.bedwars.scoreboard.BedScoreboard
 import de.c4vxl.bedwars.utils.TeamData.generalBlock
 import de.c4vxl.bedwars.utils.TeamData.glassBlock
 import de.c4vxl.bedwars.utils.TeamData.woolBlock
@@ -170,6 +171,9 @@ class RespawnHandler(plugin: Plugin): Listener {
             .append(Component.text(" ${player.bukkitPlayer.name}").color(NamedTextColor.WHITE))
             .append(Component.text("!"))
         ))
+
+        // update scoreboard
+        BedScoreboard.update(game)
     }
 
     // using GamePlayerRespawnEvent
@@ -187,5 +191,8 @@ class RespawnHandler(plugin: Plugin): Listener {
         // make player a spectator
         player.eliminate()
         player.bukkitPlayer.sendTitlePart(TitlePart.TITLE, Component.text("You have been ").append(Component.text("ELIMINATED").color(NamedTextColor.RED)).append(Component.text("!")))
+
+        // update scoreboard
+        BedScoreboard.update(event.game)
     }
 }
