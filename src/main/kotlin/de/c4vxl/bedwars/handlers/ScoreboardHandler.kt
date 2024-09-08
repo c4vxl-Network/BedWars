@@ -1,6 +1,7 @@
 package de.c4vxl.bedwars.handlers
 
 import de.c4vxl.bedwars.scoreboard.BedScoreboard
+import de.c4vxl.gamemanager.gamemanagementapi.event.GameFinishEvent
 import de.c4vxl.gamemanager.gamemanagementapi.event.GamePlayerQuitEvent
 import de.c4vxl.gamemanager.gamemanagementapi.event.GameSpectateStartEvent
 import de.c4vxl.gamemanager.gamemanagementapi.event.GameStartEvent
@@ -17,6 +18,13 @@ class ScoreboardHandler(val plugin: Plugin): Listener {
     @EventHandler
     fun onStart(event: GameStartEvent) {
         BedScoreboard.update(event.game)
+    }
+
+    @EventHandler
+    fun onGameFinish(event: GameFinishEvent) {
+        event.game.players.apply { addAll(event.game.spectators); addAll(event.game.deadPlayers) }.distinct().filter { it.game == event.game || it.game == null }.forEach {
+            it.bukkitPlayer.scoreboard.getObjective("bedwarsBedsDisplay")?.unregister()
+        }
     }
 
     @EventHandler
