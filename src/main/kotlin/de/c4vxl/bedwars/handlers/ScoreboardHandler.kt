@@ -1,10 +1,7 @@
 package de.c4vxl.bedwars.handlers
 
 import de.c4vxl.bedwars.scoreboard.BedScoreboard
-import de.c4vxl.gamemanager.gamemanagementapi.event.GameFinishEvent
-import de.c4vxl.gamemanager.gamemanagementapi.event.GamePlayerQuitEvent
-import de.c4vxl.gamemanager.gamemanagementapi.event.GameSpectateStartEvent
-import de.c4vxl.gamemanager.gamemanagementapi.event.GameStartEvent
+import de.c4vxl.gamemanager.gamemanagementapi.event.*
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -16,7 +13,9 @@ class ScoreboardHandler(val plugin: Plugin): Listener {
     }
 
     @EventHandler
-    fun onStart(event: GameStartEvent) {
+    fun onStart(event: GameStateChangeEvent) {
+        if (!event.game.isRunning) return
+
         BedScoreboard.update(event.game)
     }
 
