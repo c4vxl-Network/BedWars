@@ -29,6 +29,8 @@ class ScoreboardHandler(val plugin: Plugin): Listener {
 
     @EventHandler
     fun onQuit(event: GamePlayerQuitEvent) {
+        if (!event.game.isRunning) return
+
         BedScoreboard.update(event.game)
     }
 }
