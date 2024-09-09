@@ -1,6 +1,7 @@
 package de.c4vxl.bedwars.handlers
 
 import de.c4vxl.bedwars.scoreboard.BedScoreboard
+import de.c4vxl.gamemanager.gamemanagementapi.event.GamePlayerQuitEvent
 import de.c4vxl.gamemanager.gamemanagementapi.event.GameSpectateStartEvent
 import de.c4vxl.gamemanager.gamemanagementapi.event.GameStateChangeEvent
 import de.c4vxl.gamemanager.gamemanagementapi.game.GameState
@@ -23,6 +24,11 @@ class ScoreboardHandler(val plugin: Plugin): Listener {
 
     @EventHandler
     fun onSpecJoin(event: GameSpectateStartEvent) {
+        BedScoreboard.update(event.game)
+    }
+
+    @EventHandler
+    fun onQuit(event: GamePlayerQuitEvent) {
         BedScoreboard.update(event.game)
     }
 }
