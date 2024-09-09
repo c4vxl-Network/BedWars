@@ -64,17 +64,16 @@ class RespawnHandler(plugin: Plugin): Listener {
 
         event.keepInventory = true
 
+        val killer = event.player.killer
+
         // drop items
         val drops = player.bukkitPlayer.inventory.storageContents.filterNotNull().filter { getMaterialsToKeepOnDeath(player.team ?: return).contains(it.type) }
-        drops.forEach {
-            player.bukkitPlayer.world.dropItemNaturally(player.bukkitPlayer.location, it)
-        }
+        if (killer != null) drops.forEach { killer.inventory.addItem(it) }
+        else drops.forEach { player.bukkitPlayer.world.dropItemNaturally(player.bukkitPlayer.location, it) }
 
         // clear inventory except armor content
         player.bukkitPlayer.inventory.storageContents = mutableListOf<ItemStack?>().toTypedArray()
         player.bukkitPlayer.inventory.extraContents = mutableListOf<ItemStack?>().toTypedArray()
-
-        val killer = event.player.killer
 
         if (killer != null) {
             game.broadcast(BedWars.prefix.append(Component.text(player.bukkitPlayer.name).color(NamedTextColor.WHITE)
