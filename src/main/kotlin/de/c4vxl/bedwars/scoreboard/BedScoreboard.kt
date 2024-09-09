@@ -8,7 +8,7 @@ import org.bukkit.scoreboard.DisplaySlot
 object BedScoreboard {
     fun update(game: Game) {
         game.players.apply { addAll(game.spectators) }.map { it.bukkitPlayer }.forEach { player ->
-            val scoreboard = player.scoreboard
+            val scoreboard = game.scoreboard
             scoreboard.getObjective("bedwarsBedsDisplay")?.unregister()
             val objective = scoreboard.registerNewObjective("bedwarsBedsDisplay", "dummy", BedWars.prefix)
             objective.displaySlot = DisplaySlot.SIDEBAR
