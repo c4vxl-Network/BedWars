@@ -39,6 +39,7 @@ class BedWars : JavaPlugin() {
 
         // register listeners
         RespawnHandler(this)
+        SwordItemHandler(this)
         ShopHandler(this)
         GameStartHandler(this)
         BlockHandler(this)
