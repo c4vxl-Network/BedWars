@@ -1,7 +1,7 @@
 
 plugins {
     kotlin("jvm") version "1.9.23"
-    id("io.papermc.paperweight.userdev") version "1.7.2"
+    id("io.papermc.paperweight.userdev") version "1.7.4"
     id("xyz.jpenilla.run-paper") version "2.3.0" // Adds runServer tasks for testing
 }
 
@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     implementation(files("libs/GameManager.jar"))
-    paperweight.paperDevBundle("1.20.1-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.19-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.23")
     implementation("dev.jorel", "commandapi-bukkit-shade", "9.5.3")
     implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.5.3")

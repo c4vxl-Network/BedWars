@@ -392,7 +392,7 @@ class Items(private val team: Team) {
             it.player.setCooldown(it.item!!.type, 20 * 17)
 
             val proj = player.launchProjectile(Snowball::class.java)
-            proj.persistentDataContainer.set(NamespacedKey.minecraft("bw.item.freezer"), PersistentDataType.BOOLEAN, true)
+            proj.persistentDataContainer.set(NamespacedKey.minecraft("bw.item.freezer"), PersistentDataType.INTEGER, 1)
 
             it.item?.let { it.amount -= 1 }
 
